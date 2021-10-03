@@ -1,0 +1,91 @@
+<div class="welcome-container">
+  <div class="welcome-title">
+    <p>Welcome to the</p>
+  </div>
+  <div class="welcome-grid">
+    <mat-grid-list class="welcome-casl" cols="10" rowHeight="11rem" colWidth="50px">
+      <mat-grid-tile colspan="3"></mat-grid-tile>
+      <mat-grid-tile class="welcome-letter">
+        C
+        <p class="welcome-text">class</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="welcome-letter">
+        A
+        <p class="welcome-text">agnostic</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="welcome-letter">
+        S
+        <p class="welcome-text">skill</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="welcome-letter">
+        L
+        <p class="welcome-text">leveling</p>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="3"></mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <div class="credentials-tabs">
+    <mat-tab-group mat-align-tabs="center" headerPosition="below">
+      <mat-tab label="Experienced Explorer">
+        <div class="credentials">
+          <mat-form-field class="credentials-email" appearance="standard" hideRequiredMarker>
+            <mat-label>Email</mat-label>
+            <input matInput [formControl]="email" required>
+            <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="credentials-password" appearance="standard" hideRequiredMarker>
+            <mat-label>Password</mat-label>
+            <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="password.invalid">{{ getPasswordErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <button mat-raised-button color="primary" class="credentials-button" (click)="login()">Login</button>
+      </mat-tab>
+      <mat-tab label="Aspiring Adventurer">
+        <div class="credentials">
+          <mat-form-field class="credentials-email" appearance="standard" hideRequiredMarker>
+            <mat-label>Email</mat-label>
+            <input matInput [formControl]="email" required>
+            <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="credentials-password" appearance="standard" hideRequiredMarker>
+            <mat-label>Password</mat-label>
+            <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="password.invalid">{{ getPasswordErrorMessage() }}</mat-error>
+          </mat-form-field>
+
+          <br>
+
+          <mat-form-field class="credentials-email" appearance="standard" hideRequiredMarker>
+            <mat-label>Display Name (can be changed later)</mat-label>
+            <input matInput [formControl]="name" required>
+            <mat-error *ngIf="name.invalid">{{ getNameErrorMessage() }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="credentials-password" appearance="standard" hideRequiredMarker>
+            <mat-label>Password verify</mat-label>
+            <input matInput [formControl]="passwordVerify" [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="password.invalid">{{ getPasswordVerifyErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="accent" class="credentials-button" (click)="signUp()">Sign up</button>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

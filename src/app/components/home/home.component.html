@@ -1,0 +1,41 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="4" rowHeight="195px">
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="useSmallVals ? card.$smallCols : card.$cols"
+      [rowspan]="useSmallVals ? card.$smallRows : card.$rows" (mouseover)="card.$iconShow=true" (mouseout)="card.$iconShow=false">
+      <mat-card class="dashboard-card">
+        <mat-card-header class="dashboard-card-header">
+          <mat-card-title class="dashboard-card-header-title">
+            {{ card.$title }}
+            <button mat-icon-button class="more-button dashboard-card-header-menu" (click)="characterEdit()">
+              <mat-icon>add</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>Expand</button>
+              <button mat-menu-item>Remove</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-divider class="dashboard-card-header-divider"></mat-divider>
+        <mat-card-content class="dashboard-card-content">
+          <mat-list>
+            <mat-list-item *ngFor="let data of card['data']; let last = last" class="dashboard-card-list-item">
+              <div *ngIf="card.$type === 'character'" (click)="characterEdit(data)">
+                <span>{{ data.name }}</span>
+              </div>
+              <div *ngIf="card.$type === 'game'" class="game-info">
+                <span class="game-info-detail-title">
+                  {{ data.title }}
+                </span>
+                <span class="game-info-deatil-next">
+                  Next: {{ data.nextSession | date }}
+                </span>
+              </div>
+              <mat-divider *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

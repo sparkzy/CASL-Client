@@ -1,0 +1,117 @@
+<div class="grid-container">
+  <mat-tab-group class="section-selector" mat-align-tabs="center">
+    <mat-tab label="Info">
+      <!-- <mat-grid-list class="editor-tile" cols="8" rowHeight="54.5rem"> -->
+      <mat-grid-list class="editor-tile" cols="8" rowHeight="5.44rem">
+        <mat-grid-tile class="editor-tile" *ngFor="let infoCard of infoCards | async"
+          [colspan]="useSmallVals ? infoCard.$smallCols : infoCard.$cols"
+          [rowspan]="useSmallVals ? infoCard.$smallRows : infoCard.$rows">
+          <!-- Name card -->
+          <div class="name-div" *ngIf="infoCard.$type === 'name'">
+            <mat-form-field class="name-input" appearance="fill">
+              <mat-label>Name</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field class="name-input" appearance="fill">
+              <mat-label>Species</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field class="name-input" appearance="fill">
+              <mat-label>Age</mat-label>
+              <input matInput type="number">
+            </mat-form-field>
+            <mat-form-field class="name-input" appearance="fill">
+              <mat-label>Height</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <mat-form-field class="name-input" appearance="fill">
+              <mat-label>Weight</mat-label>
+              <input matInput>
+            </mat-form-field>
+          </div>
+
+          <!-- Bio card -->
+          <mat-form-field class="bio" *ngIf="infoCard.$type === 'bio'" appearance="fill">
+            <mat-label>Backstory</mat-label>
+            <textarea class="textarea" matInput placeholder=""></textarea>
+          </mat-form-field>
+          <!-- </mat-card> -->
+
+          <!-- Description card -->
+          <mat-form-field class="description" *ngIf="infoCard.$type === 'description'" appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea class="textarea" matInput placeholder=""></textarea>
+          </mat-form-field>
+          <!-- </mat-card> -->
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="S.A.F.E.">
+      <mat-grid-list class="editor-tile" cols="8" rowHeight="8rem">
+        <mat-grid-tile class="editor-tile" *ngFor="let safeCard of safeCards | async"
+          [colspan]="useSmallVals ? safeCard.$smallCols : safeCard.$cols"
+          [rowspan]="useSmallVals ? safeCard.$smallRows : safeCard.$rows">
+          <!-- Attributes card -->
+          <mat-card *ngIf="safeCard.$type === 'attribute'" class="attributes">
+            <mat-card-title class="attribute-title">{{ safeCard.$title }} - Remaining: {{ attributePoints }}
+            </mat-card-title>
+            <mat-grid-list cols="2" rowHeight="3.5rem">
+              <mat-grid-tile class="attributes-tile" *ngFor="let tile of safeCard.$data"
+                [colspan]="useSmallVals ? tile.smallCols : tile.cols"
+                [rowspan]="useSmallVals ? tile.smallRows : tile.rows">
+                <mat-form-field class="attributes-field">
+                  <!-- <input type="number" matInput placeholder="{{ tile.text }}" [ngModel]="attributes.get(tile.text)"
+                    (ngModelChange)="attributes.set(tile.text, $event)"> -->
+                  <input type="number" matInput placeholder="{{ tile.text }}" [ngModel]="attributes.get(tile.text)"
+                    (ngModelChange)="attributes.set(tile.text, $event); updateAttributes()">
+                  <!-- <mat-error *ngIf="getAttributeFC(tile.text).invalid">{{ getAttributeErrorMessage(tile) }}</mat-error> -->
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+            <!-- <mat-error *ngIf="attributeFC.invalid">{{ getAttributeErrorMessage() }}</mat-error> -->
+          </mat-card>
+
+          <!-- Abilities card -->
+          <mat-card *ngIf="safeCard.$type === 'ability'" class="abilities">
+            <mat-card-title>{{ safeCard.$title }}</mat-card-title>
+            <!-- <mat-grid-list cols="2" rowHeight="65px">
+              <mat-grid-tile class="attributes-tile" *ngFor="let tile of safeCard.$data"
+                [colspan]="useSmallVals ? tile.smallCols : tile.cols"
+                [rowspan]="useSmallVals ? tile.smallRows : tile.rows"> -->
+            <!-- <mat-form-field class="attributes-field">
+                </mat-form-field> -->
+            <!-- </mat-grid-tile>
+            </mat-grid-list> -->
+          </mat-card>
+
+          <!-- Features card -->
+          <mat-card *ngIf="safeCard.$type === 'feature'" class="features">
+            <mat-card-title>{{ safeCard.$title }}</mat-card-title>
+            <!-- <mat-grid-list cols="2" rowHeight="65px">
+              <mat-grid-tile class="attributes-tile" *ngFor="let tile of safeCard.$data"
+                [colspan]="useSmallVals ? tile.smallCols : tile.cols"
+                [rowspan]="useSmallVals ? tile.smallRows : tile.rows"> -->
+            <!-- <mat-form-field class="attributes-field">
+                </mat-form-field> -->
+            <!-- </mat-grid-tile>
+            </mat-grid-list> -->
+          </mat-card>
+
+          <!-- Equipment card -->
+          <mat-card *ngIf="safeCard.$type === 'equipment'" class="equipment">
+            <mat-card-title>{{ safeCard.$title }}</mat-card-title>
+            <!-- <mat-grid-list cols="2" rowHeight="65px">
+              <mat-grid-tile class="attributes-tile" *ngFor="let tile of safeCard.$data"
+                [colspan]="useSmallVals ? tile.smallCols : tile.cols"
+                [rowspan]="useSmallVals ? tile.smallRows : tile.rows"> -->
+            <!-- <mat-form-field class="attributes-field">
+                </mat-form-field> -->
+            <!-- </mat-grid-tile>
+            </mat-grid-list> -->
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab>
+  </mat-tab-group>
+  <button mat-raised-button color="primary" class="btn-submit" (click)="submit()">Submit</button>
+</div>
