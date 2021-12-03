@@ -29,4 +29,8 @@ export class HttpService {
   getByDisplayName(displayName: number, endpoint: string): Observable<any> {
     return this.http.get(environment.context + endpoint + displayName);
   }
+
+  login(entity: User): Observable<any> {
+    return this.http.post<any>(environment.context + 'user/login', entity);
+  }
 }

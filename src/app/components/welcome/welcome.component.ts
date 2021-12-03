@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, NgForm, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/beans/user';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { HttpService } from 'src/app/services/http-service/http.service';
 
 @Component({
@@ -17,36 +18,19 @@ export class WelcomeComponent implements OnInit {
   passwordVerify = new FormControl('', [Validators.required, Validators.minLength(8)]);
   name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  constructor(private router: Router, private http: HttpService) { }
+  constructor(private router: Router, private http: HttpService, private auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
   login(): void {
-    this.http.getByEmail(this.email.value, 'user/email/').subscribe(
-      (succ) => {
-        console.log(succ);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-    this.router.navigate(['home']);
+    const user = new User(this.email.value, this.name.value, this.password.value);
+    this.auth.login(user);
   }
 
   signUp(): void {
-    const newUser = new User(this.email.value, this.name.value, this.password.value);
-    console.log(newUser);
-    this.http.save(newUser, 'user').subscribe(
-      (succ) => {
-        console.log(succ);
-      }
-      ,
-      (err) => {
-        console.log(err);
-      }
-    );
-    console.log(`E-mail: ${this.email.value}\n Password: ${this.password.value}\n Display name:: ${this.name.value}\n Password verify: ${this.passwordVerify.value}`);
+    const user = new User(this.email.value, this.name.value, this.password.value);
+    this.auth.signup(user);
   }
 
   getEmailErrorMessage() {

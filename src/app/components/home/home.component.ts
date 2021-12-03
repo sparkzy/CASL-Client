@@ -14,7 +14,7 @@ import { CharacterService } from 'src/app/services/character-service/character.s
 export class HomeComponent {
 
   characters = [
-    new Character('Kulo', 26, 'Human', '5\'9"', '155lbs', defaultAttributes, defaultSkills, defaultResources, 'Bobby'),
+    new Character('Kulo', 26, 'Human', '5\'9"', '155lbs', defaultAttributes, defaultSkills, defaultResources, 'Bobby', 'Smug. Arrogant. Just the worst.', 'Flew to close to the sun.'),
     new Character('Da.3', 18, 'Human', '1.81m"', '68kg', defaultAttributes, defaultSkills, defaultResources, 'Bobby'),
     new Character('Relhaz', 22, 'Human', '6\'0"', '175lbs', defaultAttributes, defaultSkills, defaultResources, 'Ben'),
     new Character('Randy Nitro', 30, 'Human?', '6\'5"', '225lbs', defaultAttributes, defaultSkills, defaultResources, 'Matt'),
@@ -54,14 +54,8 @@ export class HomeComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, private router: Router, private characterService: CharacterService) {}
 
-  listItemClick(data: any): void {
-    console.log(data);
-  }
-
   characterEdit(character = new Character('', 0, '', '', '', defaultAttributes, defaultSkills, defaultResources, '')): void {
-    console.log(character);
     this.characterService.currentCharacter = character;
-    console.log(this.characterService.currentCharacter);
     this.router.navigate(['character/edit'])
   }
 }

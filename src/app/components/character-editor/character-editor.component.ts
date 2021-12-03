@@ -24,18 +24,33 @@ export interface Tile {
 export class CharacterEditorComponent implements OnInit {
 
   useSmallVals = false;
-  character: Character = new Character();
+  character = new Character();
   bio = '';
   maxPoinits = 80;
   attributePoints = this.maxPoinits;
   attributes = new Map<string, number>();
   skills = new Map<string, number>();
-  attributeTiles: Tile[] = [];
-  skillTiles: Tile[] = [];
+  attributeTiles = new Array<Tile>();
+  skillTiles = new Array<Tile>();
+
+  nameFormControl: FormControl;
+  speciesFormControl: FormControl;
+  ageFormControl: FormControl;
+  heightFormControl: FormControl;
+  weightFormControl: FormControl;
+  backstoryFormControl: FormControl;
+  descriptionFormControl: FormControl;
+
+  // nameFormControl: FormControl; = new FormControl('', [Validators.required]);
+  // speciesFormControl: FormControl; = new FormControl('', [Validators.required]);
+  // ageFormControl: FormControl; = new FormControl('', [Validators.pattern('/^\d+$/')]);
+  // heightFormControl: FormControl; = new FormControl('', [Validators.required]);
+  // weightFormControl: FormControl; = new FormControl('', [Validators.required]);
+  // backstoryFormControl: FormControl; = new FormControl('');
+  // descriptionFormControl: FormControl; = new FormControl('');
 
   infoCards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
-      console.log(matches);
       if (matches) {
         this.useSmallVals = true;
       } else {
@@ -50,7 +65,6 @@ export class CharacterEditorComponent implements OnInit {
 
   safeCards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
-      console.log(matches);
       if (matches) {
         this.useSmallVals = true;
       } else {
@@ -81,10 +95,6 @@ export class CharacterEditorComponent implements OnInit {
   // attributeFC = new FormControl('', [Validators.required, Validators.min(1), Validators.max(9)]);
 
   constructor(private formBuilder: FormBuilder, private characterService: CharacterService, private breakpointObserver: BreakpointObserver) {
-    // this.attributeFCs.set('temp', new FormControl('', [Validators.required, Validators.min(1), Validators.max(9)]));
-  }
-
-  ngOnInit(): void {
     this.character = this.characterService.currentCharacter;
     this.character.$attributes.forEach((value: number, key: string) => {
       this.attributeTiles.push({ text: key, cols: 1, rows: 1, smallCols: 1, smallRows: 2, color: '', valid: true });
@@ -92,6 +102,16 @@ export class CharacterEditorComponent implements OnInit {
       // this.attributeFCs.set(key, new FormControl('', [Validators.required, Validators.min(1), Validators.max(9)]));
     });
 
+    this.nameFormControl = new FormControl(this.character.$name, [Validators.required]);
+    this.speciesFormControl = new FormControl(this.character.$species, [Validators.required]);
+    this.ageFormControl = new FormControl(this.character.$age, [Validators.pattern('/^\d+$/')]);
+    this.heightFormControl = new FormControl(this.character.$height, [Validators.required]);
+    this.weightFormControl = new FormControl(this.character.$weight, [Validators.required]);
+    this.backstoryFormControl = new FormControl(this.character.$bio);
+    this.descriptionFormControl = new FormControl(this.character.$description);
+  }
+
+  ngOnInit(): void {
     // this.character.$skills.forEach((value: number, key: string) => {
     //   this.skillTiles.push({ text: key, cols: 1, rows: 1, smallCols: 1, smallRows: 2, color: '', valid: true });
     //   this.skills.set(key, value);

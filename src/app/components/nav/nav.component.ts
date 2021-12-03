@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 const THEME_DARKNESS_SUFFIX = `-dark`;
 
@@ -17,11 +18,10 @@ export class NavComponent implements OnInit, OnDestroy {
   @Input()
   title = '';
 
-  @HostBinding('class') activeThemeCssClass: string = 'hp';
+  @HostBinding('class') activeThemeCssClass: string = 'energy';
 
   isThemeDark = false;
   activeTheme: string = 'energy';
-  // theme = 'mental';
   themes = ['hp', 'stamina', 'mental', 'energy'];
   onWelcomePage: boolean;
   private routeSub = new Subscription();
@@ -32,12 +32,15 @@ export class NavComponent implements OnInit, OnDestroy {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private overlayContainer: OverlayContainer, private router: Router) {
+  constructor(private breakpointObserver: BreakpointObserver, private overlayContainer: OverlayContainer, private router: Router, private auth: AuthService) {
     this.setTheme('energy', true); // Default Theme
-    this.onWelcomePage = false;
+    this.onWelcomePage = true;
+    // this.auth.loginStatus().subscribe((isLoggedIn: boolean) => {
+    //   this.onWelcomePage = !isLoggedIn;
+    // })
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url.includes('welcome')) {
+          if (router.url.includes('welcome') || router.url.length <= 1) {
           this.onWelcomePage = true;
         } else {
           this.onWelcomePage = false;
@@ -46,17 +49,7 @@ export class NavComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
-    // this.routeSub = this.activatedRoute.url.subscribe((urlSegment: UrlSegment[]) => {
-    //   console.log('seg: ' + urlSegment[0]);
-    //   console.log(this.routeSub);
-    //   if (urlSegment[0]['path'].includes('welcome')) {
-    //     this.onWelcomePage = true;
-    //   } else {
-    //     this.onWelcomePage = false;
-    //   }
-    // });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     if (this.routeSub) {
@@ -94,7 +87,7 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.navigate('welcome');
+    this.auth.logout();
   }
 
 }
